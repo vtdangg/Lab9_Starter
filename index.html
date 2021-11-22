@@ -87,7 +87,23 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "b6aecea666054c659b769e78c258f3df"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    
+                        
+  </script>
+  
+  <script>
+    class calcErr extends Error {
+      constructor(message){
+        super(message);
+        this.name = "new error";
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +111,156 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      
+
+      try{
+        if(isNaN(firstNum) == true && isNan(secondNum) == true){
+          throw new calcErr('Neither inputs are valid');
+        }
+        if(isNaN(firstNum) == true){
+          throw new calcErr('First input is not a number');
+        }
+        if(isNaN(secondNum) == true){
+          throw new calcErr('Second input is not a number');
+        }
+
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch(err){
+        console.log(err);
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    
+    //step 2:
+
+      errorBtns[0].addEventListener("click", consoleLog());
+      
+      errorBtns[1].addEventListener("click", consoleError());
+      
+      errorBtns[2].addEventListener("click", consoleCount());
+      
+      errorBtns[3].addEventListener("click", consoleWarn());
+      
+      errorBtns[4].addEventListener("click", consoleAssert());
+      
+      errorBtns[5].addEventListener("click", consoleClear());
+      
+      errorBtns[6].addEventListener("click", consoleDir());
+
+      errorBtns[7].addEventListener("click", consoleDirxml());
+      
+      errorBtns[8].addEventListener("click", consoleGroupStart());
+      
+      errorBtns[9].addEventListener("click", consoleGroupEnd());
+      
+      errorBtns[10].addEventListener("click", consoleTable());
+      
+      errorBtns[11].addEventListener("click", startTimer());
+      
+      errorBtns[12].addEventListener("click", endTimer());
+      
+      errorBtns[13].addEventListener("click", consoleTrace());
+    
+      errorBtns[14].addEventListener("click", globalError());
+      
+    
+
+    function consoleLog(){
+      console.log("Console Log");
+    }
+
+    function consoleError(){
+      console.error("Console Error");
+    }
+
+    function consoleCount(){
+      console.count("Count Button");
+    }
+
+    function consoleWarn(){
+      console.warn("Console Warn Button");
+    }
+
+    function consoleAssert(){
+      const x = 15;
+      const y = 2;
+      const reason = 'x is expected to be less than y';
+      console.assert(x < y, {x, y, reason});
+    }
+
+    function consoleClear(){
+      console.clear();
+    }
+
+    function consoleDir(){
+      console.dir(errorBtns[6]);
+    }
+
+    function consoleDirxml(){
+      console.dirxml(document);
+    }
+    var label = "Console group demo";
+    function consoleGroupStart(){
+      console.group(label);
+    }
+
+    function consoleGroupEnd(){
+      console.groupEnd(label);
+    }
+
+    function consoleTable(){
+      console.table([
+        {
+          name: 'Women in Computing',
+          role: 'Marketing Chair',
+        },
+        {
+          name: 'Marshall College',
+          role: 'Resident Assistant',
+        },
+        {
+          name: 'Vietnamese Student Association',
+          role: 'general member',
+        }
+      ]);
+    }
+
+    function startTimer(){
+      console.time("timer");
+    }
+
+    function endTimer(){
+      console.timeEnd("timer");
+    }
+
+    function consoleTrace(){
+      const level1 = () => { level2(); };
+      const level2 = () => { level3(); };
+      const level3 = () => { level4(); };
+      const level4 = () => { console.trace(); };
+      level1();
+    }
+
+    function globalError(){
+      window.onerror = function(msg, url, line, column, error){
+        var message = [
+          'Message: ' + msg,
+          'URL: ' + url,
+          'Line: ' + line,
+          'Column: ' + column,
+          'Error object: ' + JSON.stringify(error)
+        ];
+        console.log(message);
+      }
+
+    }
+    TrackJS.track('Testing TrackJS!');
+
   </script>
 </body>
 
